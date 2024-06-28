@@ -1,10 +1,10 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ---- eval = TRUE, echo = F---------------------------------------------------
+## ----eval = TRUE, echo = F----------------------------------------------------
 execute <- T
 if(!('ranger' %in% installed.packages())){
   execute <- F
@@ -34,7 +34,7 @@ head(preds)
 plot_data <- cbind(iris, preds)
 head(plot_data)
 
-## ---- eval = execute----------------------------------------------------------
+## ----eval = execute-----------------------------------------------------------
 plot_data <- plot_data %>% 
     # Do operations on a row basis              
     rowwise() %>% 

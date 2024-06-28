@@ -9,6 +9,9 @@
 status](https://www.r-pkg.org/badges/version/PieGlyph)](https://CRAN.R-project.org/package=PieGlyph)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/rishvish/PieGlyph/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rishvish/PieGlyph/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/rishvish/PieGlyph/branch/main/graph/badge.svg)](https://app.codecov.io/gh/rishvish/PieGlyph?branch=main)
 <!-- badges: end -->
 
 `PieGlyph` is an R package aimed at replacing points in a plot with
@@ -18,8 +21,15 @@ dimensions to prevent distortions when the plot dimensions are changed.
 
 ## Installation
 
-You can install the development version of `PieGlyph` from
-[GitHub](https://github.com/) with:
+You can install the released version of `PieGlyph` from
+[CRAN](https://cran.r-project.org/) by running:
+
+``` r
+install.packages("PieGlyph")
+```
+
+Alternatively, you can install the development version of `PieGlyph`
+from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -31,8 +41,11 @@ devtools::install_github("rishvish/PieGlyph")
 #### Load libraries
 
 ``` r
-library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 library(PieGlyph)
+library(ggiraph)
 ```
 
 #### Simulate raw data
@@ -48,13 +61,11 @@ plot_data <- data.frame(response = rnorm(30, 100, 30),
                         D = round(runif(30, 1, 9), 2))
 ```
 
-<p>
 The data has 30 observations and seven columns. `response` is a
 continuous variable measuring system output while `system` describes the
 30 individual systems of interest. Each system is placed in one of three
 groups shown in `group`. Columns `A`, `B`, `C`, and `D` measure system
 attributes.
-</p>
 
 ``` r
 head(plot_data)
@@ -69,11 +80,9 @@ head(plot_data)
 
 #### Create scatter plot with pie-charts
 
-<p>
 We can plot the outputs for each system as a scatterplot and replace the
 points with pie-chart glyphs showing the relative proportions of the
-four system attributes
-</p>
+four system attributes.
 
 #### Basic plot
 
@@ -137,12 +146,10 @@ p + scale_fill_manual(values = c('#56B4E9', '#CC79A7', '#F0E442', '#D55E00'))
 
 ### Alternative specification
 
-<p>
 The attributes can also be stacked into one column to generate the plot.
 This variant of the function is useful for situations when the data is
 in tidy format. See `vignette('tidy-data')` and `vignette('pivot')` for
 more information.
-</p>
 
 #### Stack the attributes in one column
 
@@ -175,3 +182,29 @@ ggplot(data = plot_data_stacked, aes(x = system, y = response))+
 ```
 
 <img src="man/figures/README-stacked-1.png" style="display: block; margin: auto;" />
+
+### Interactive pie-chart glyphs
+
+It is also possible to create interactive pie-chart scatterplots using
+the `geom_pie_interactive` function via the
+[ggiraph](https://davidgohel.github.io/ggiraph/) framework.
+
+Hovering over a pie-chart glyph will show a tooltip containing
+information about the raw counts and percentages of the categories
+(system attributes in this example) shown in the pie-charts. All
+additional features by ggiraph are also supported. See the [ggiraph
+book](https://www.ardata.fr/ggiraph-book/) and
+`vignette("interactive-pie-glyphs")` for more information.
+
+``` r
+plot_obj <- ggplot(data = plot_data)+
+              geom_pie_interactive(aes(x = system, y = response,
+                                       data_id = system),
+                                   slices = c("A", "B", "C", "D"), 
+                                   colour = "black")+
+              theme_classic()
+
+girafe(ggobj = plot_obj, height_svg = 6, width_svg = 8)
+```
+
+<img src="man/figures/interactive-pie-glyphs.png" width="80%" style="display: block; margin: auto;" />

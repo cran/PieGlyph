@@ -1,10 +1,10 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ---- eval = TRUE, echo = F---------------------------------------------------
+## ----eval = TRUE, echo = F----------------------------------------------------
 execute <- T
 if(!all(c('maps', 'mapproj') %in% installed.packages())){
   execute <- F

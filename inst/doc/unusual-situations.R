@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -18,7 +18,7 @@ plot_data <- data.frame(x = 1:4,
                         C = c(7, NA, NA, 3))
 plot_data
 
-## ---- warning = F, fig.align='center', fig.width=7----------------------------
+## ----fig.align='center', fig.width=7------------------------------------------
 ggplot()+
   geom_pie_glyph(aes(x = x, y = y),
                  slices = c('A','B','C'),
@@ -36,7 +36,24 @@ plot_data <- data.frame(x = 1:4,
                         C = c(7, 3, NA, 3))
 head(plot_data)
 
-## ---- warning = F, fig.align='center', fig.width=7----------------------------
+## ----fig.align='center', fig.width=7------------------------------------------
+ggplot(data = plot_data)+
+  geom_pie_glyph(aes(x = x, y = y),
+                 slices = c('A','B','C'),
+                 radius = 1)+
+  theme_minimal()+
+  xlim(0.5,4.5)+
+  ylim(0.5,4.5)
+
+## -----------------------------------------------------------------------------
+plot_data <- data.frame(x = 1:4, 
+                        y = c(3,1,4,2),
+                        A = c(5, 2, 0, 1),
+                        B = c(2, 2, 0, 5),
+                        C = c(7, 3, 0, 3))
+head(plot_data)
+
+## ----fig.align='center', fig.width=7------------------------------------------
 ggplot(data = plot_data)+
   geom_pie_glyph(aes(x = x, y = y),
                  slices = c('A','B','C'),
@@ -53,7 +70,7 @@ plot_data <- data.frame(x = 1:4,
                         C = c(-7, 1, 3, -3))
 plot_data
 
-## ---- warning = F, error = T, fig.align='center', fig.width=7-----------------
+## ----warning = F, error = T, fig.align='center', fig.width=7------------------
 ggplot()+
   geom_pie_glyph(aes(x = x, y = y),
                  slices = c('A','B','C'),
@@ -67,7 +84,7 @@ dummy_data <- data.frame(system = rep(paste0('S', 1:3), each = 3),
                          value = c(30,20,10, 20,50,50, 10,10,10))
 dummy_data
 
-## ---- fig.align='center', fig.width=7-----------------------------------------
+## ----fig.align='center', fig.width=7------------------------------------------
 ggplot(data = dummy_data[4:9,])+
   geom_pie_glyph(aes(x = x, y = y),
                  slices = 'attribute', values = 'value',
@@ -78,7 +95,7 @@ ggplot(data = dummy_data[4:9,])+
   labs(title = 'Expected Plot')
 
 
-## ---- warning = F, fig.align='center', fig.width=7----------------------------
+## ----warning = F, fig.align='center', fig.width=7-----------------------------
 ggplot(data = dummy_data)+
   geom_pie_glyph(aes(x = x, y = y),
                  slices = 'attribute', values = 'value',
@@ -88,7 +105,7 @@ ggplot(data = dummy_data)+
   ylim(1.5, 4.5)+
   labs(title = 'Generated Plot')
 
-## ---- fig.align='center', fig.width=7-----------------------------------------
+## ----fig.align='center', fig.width=7------------------------------------------
 ggplot(data = dummy_data)+
   geom_pie_glyph(aes(x = x, y = y),
                  slices = 'attribute', values = 'value',
@@ -97,7 +114,7 @@ ggplot(data = dummy_data)+
   ylim(1.5, 4.5)+
   theme_minimal()
 
-## ---- fig.align='center', fig.width=7-----------------------------------------
+## ----fig.align='center', fig.width=7------------------------------------------
 ggplot(data = dummy_data)+
   geom_pie_glyph(aes(x = x, y = y, pie_group = system),
                  slices = 'attribute', values = 'value',
@@ -106,7 +123,7 @@ ggplot(data = dummy_data)+
   ylim(1.5, 4.5)+
   theme_minimal()
 
-## ---- fig.align='center', fig.width=7-----------------------------------------
+## ----fig.align='center', fig.width=7------------------------------------------
 dummy_data_wide <- dummy_data %>% 
   pivot_wider(names_from = 'attribute', values_from = 'value')
 
@@ -120,7 +137,7 @@ ggplot(data = dummy_data_wide)+
   ylim(1.5, 4.5)+
   theme_minimal()
 
-## ---- fig.align='center', fig.width=7-----------------------------------------
+## ----fig.align='center', fig.width=7------------------------------------------
 ggplot(data = dummy_data_wide)+
   geom_pie_glyph(aes(x = x, y = y),
                  slices = c('A','B','C'),
